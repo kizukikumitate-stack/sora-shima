@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORA × SHIMA | ドローン体験 × 教育プログラム 海士町</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Noto+Sans+JP:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0f14;
+    --deep: #101828;
+    --ocean: #0a2540;
+    --mid: #1a3a5c;
+    --steel: #2d5986;
+    --amber: #e8a020;
+    --gold: #f5c842;
+    --cream: #f5f0e8;
+    --fog: #c8d4e0;
+    --white: #ffffff;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(13,15,20,0.95), transparent);
+    backdrop-filter: blur(4px);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: .75rem;
+    letter-spacing: .2em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .8rem; letter-spacing: .12em;
+    color: var(--fog); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-cta {
+    font-size: .75rem; letter-spacing: .12em;
+    padding: .55rem 1.4rem;
+    border: 1px solid var(--amber); color: var(--amber);
+    background: transparent; cursor: pointer;
+    transition: all .2s; font-family: 'Space Mono', monospace;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--amber); color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: flex-end;
+    padding: 0 4rem 7rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(10,37,64,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(74,158,255,0.08) 0%, transparent 60%),
+      linear-gradient(160deg, #0d0f14 0%, #0a1929 40%, #0a2540 70%, #071520 100%);
+  }
+
+  /* Horizon line */
+  .hero-horizon {
+    position: absolute;
+    left: 0; right: 0;
+    top: 55%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(232,160,32,0.3) 30%, rgba(232,160,32,0.6) 50%, rgba(232,160,32,0.3) 70%, transparent);
+  }
+
+  /* Grid overlay */
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(74,158,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,158,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+  }
+
+  /* Drone path animation */
+  .drone-path {
+    position: absolute;
+    top: 30%; right: 15%;
+    width: 280px; height: 180px;
+  }
+  .drone-dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--amber), 0 0 30px rgba(232,160,32,0.4);
+    animation: droneFly 8s ease-in-out infinite;
+  }
+  .drone-trail {
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(232,160,32,0.5), transparent);
+    animation: trailPulse 8s ease-in-out infinite;
+  }
+  @keyframes droneFly {
+    0%   { top: 80%; left: 10%; }
+    25%  { top: 20%; left: 40%; }
+    50%  { top: 10%; left: 80%; }
+    75%  { top: 50%; left: 60%; }
+    100% { top: 80%; left: 10%; }
+  }
+  @keyframes trailPulse { 0%,100% { opacity:.3 } 50% { opacity:.8 } }
+
+  /* Floating circles */
+  .circle {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(74,158,255,0.12);
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .circle-1 { width: 400px; height: 400px; top: 20%; right: 5%; animation-delay: 0s; }
+  .circle-2 { width: 600px; height: 600px; top: 10%; right: -5%; animation-delay: 1.5s; opacity: .5; }
+  .circle-3 { width: 200px; height: 200px; top: 30%; right: 18%; animation-delay: 3s; opacity: .7; }
+  @keyframes pulse { 0%,100% { transform: scale(1); opacity: .3 } 50% { transform: scale(1.05); opacity: .6 } }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 750px;
+    animation: fadeUp 1.2s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem; letter-spacing: .3em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--amber);
+  }
+
+  .hero-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .hero-title .accent { color: var(--amber); }
+  .hero-title .italic {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    color: var(--fog);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--fog);
+    max-width: 520px;
+    margin-bottom: 3rem;
+    animation: fadeUp 1.2s .3s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center;
+    animation: fadeUp 1.2s .5s ease both;
+  }
+  .btn-primary {
+    padding: .9rem 2.2rem;
+    background: var(--amber); color: var(--ink);
+    font-family: 'Space Mono', monospace;
+    font-size: .8rem; letter-spacing: .1em;
+    border: none; cursor: pointer;
+    transition: all .25s; text-decoration: none;
+    display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+  .btn-ghost {
+    padding: .9rem 2.2rem;
+    border: 1px solid rgba(200,212,224,0.3); color: var(--fog);
+    font-family: 'Space Mono', monospace;
+    font-size: .8rem; letter-spacing: .1em;
+    background: transparent; cursor: pointer;
+    transition: all .25s; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--fog); color: var(--white); }
+
+  .hero-scroll {
+    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    font-family: 'Space Mono', monospace; font-size: .6rem;
+    letter-spacing: .2em; color: rgba(200,212,224,0.4);
+    animation: fadeUp 1.2s 1s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(232,160,32,0.6), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100% { transform: scaleY(1); opacity: .6 } 50% { transform: scaleY(1.3); opacity: 1 } }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--ocean);
+    border-top: 1px solid rgba(74,158,255,0.15);
+    border-bottom: 1px solid rgba(74,158,255,0.15);
+    padding: 2.5rem 4rem;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem; color: var(--amber);
+    display: block; margin-bottom: .3rem;
+  }
+  .stat-label {
+    font-size: .75rem; color: var(--fog);
+    letter-spacing: .08em; line-height: 1.4;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 8rem 4rem; }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .3em;
+    color: var(--amber); text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .section-tag::before {
+    content: ''; width: 24px; height: 1px; background: var(--amber);
+  }
+  .section-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .section-body {
+    font-size: .95rem; line-height: 1.9;
+    color: var(--fog); max-width: 560px;
+  }
+
+  /* ── PROBLEM ── */
+  .problem {
+    background: var(--deep);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+  .problem-visual {
+    position: relative; height: 400px;
+  }
+  .problem-card {
+    position: absolute;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(74,158,255,0.15);
+    padding: 1.5rem;
+    backdrop-filter: blur(4px);
+  }
+  .problem-card:nth-child(1) { top: 0; left: 0; right: 20%; }
+  .problem-card:nth-child(2) { top: 35%; left: 15%; right: 0; }
+  .problem-card:nth-child(3) { bottom: 0; left: 0; right: 30%; }
+  .problem-card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; color: var(--amber);
+    letter-spacing: .15em; margin-bottom: .7rem;
+  }
+  .problem-card-text {
+    font-size: .85rem; color: var(--fog); line-height: 1.6;
+  }
+  .problem-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem; color: rgba(232,160,32,0.3);
+    margin-bottom: .3rem;
+  }
+
+  /* ── PROGRAM ── */
+  .program { background: var(--ink); }
+  .program-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    margin-top: 4rem;
+    background: rgba(74,158,255,0.1);
+  }
+  .program-item {
+    background: var(--ink);
+    padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: background .3s;
+    cursor: default;
+  }
+  .program-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .program-item:hover { background: rgba(10,37,64,0.6); }
+  .program-item:hover::before { transform: scaleX(1); }
+  .program-num {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; color: rgba(232,160,32,0.4);
+    letter-spacing: .2em; margin-bottom: 1.5rem;
+  }
+  .program-icon {
+    font-size: 2rem; margin-bottom: 1rem;
+    display: block;
+  }
+  .program-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.25rem; font-weight: 700;
+    margin-bottom: .8rem; color: var(--white);
+  }
+  .program-desc {
+    font-size: .82rem; line-height: 1.8; color: var(--fog);
+    margin-bottom: 1.2rem;
+  }
+  .program-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem; letter-spacing: .12em;
+    padding: .3rem .7rem;
+    border: 1px solid rgba(232,160,32,0.3);
+    color: rgba(232,160,32,0.7);
+  }
+
+  /* ── FLOW ── */
+  .flow {
+    background: var(--deep);
+  }
+  .flow-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+    margin-top: 4rem;
+  }
+  .flow-steps { display: flex; flex-direction: column; gap: 0; }
+  .flow-step {
+    display: grid; grid-template-columns: 60px 1fr;
+    gap: 1.5rem; align-items: start;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(74,158,255,0.1);
+    position: relative;
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem; color: rgba(232,160,32,0.25);
+    line-height: 1;
+    padding-top: .2rem;
+  }
+  .step-content {}
+  .step-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--white); margin-bottom: .5rem;
+  }
+  .step-desc { font-size: .82rem; color: var(--fog); line-height: 1.8; }
+  .step-duration {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem; color: var(--amber);
+    letter-spacing: .15em; margin-top: .5rem;
+  }
+  .flow-aside {
+    position: sticky; top: 8rem;
+  }
+  .hpi-box {
+    border: 1px solid rgba(74,158,255,0.2);
+    padding: 2.5rem;
+    background: rgba(255,255,255,0.02);
+  }
+  .hpi-title {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .2em; color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .hpi-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: .82rem;
+  }
+  .hpi-row:last-child { border: none; }
+  .hpi-key { color: var(--fog); }
+  .hpi-val { color: var(--white); font-weight: 500; }
+
+  /* ── AUDIENCE ── */
+  .audience { background: var(--ink); }
+  .audience-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 4rem;
+  }
+  .audience-card {
+    padding: 2.5rem 2rem;
+    background: linear-gradient(135deg, rgba(10,37,64,0.6), rgba(13,15,20,0.8));
+    border: 1px solid rgba(74,158,255,0.12);
+    transition: border-color .3s, transform .3s;
+  }
+  .audience-card:hover {
+    border-color: rgba(232,160,32,0.4);
+    transform: translateY(-4px);
+  }
+  .audience-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .2em; color: var(--amber);
+    margin-bottom: 1.2rem;
+  }
+  .audience-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem; font-weight: 700;
+    color: var(--white); margin-bottom: .8rem;
+  }
+  .audience-desc { font-size: .82rem; color: var(--fog); line-height: 1.8; }
+  .audience-price {
+    margin-top: 1.5rem; padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem; color: var(--amber);
+  }
+  .audience-price span {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: .7rem; color: var(--fog); margin-left: .3rem;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--ocean);
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(232,160,32,0.06) 0%, transparent 70%);
+  }
+  .cta-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .3em;
+    color: var(--amber); text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .cta-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800; line-height: 1.2;
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .cta-sub {
+    font-size: .95rem; color: var(--fog);
+    line-height: 1.8; max-width: 500px;
+    margin: 0 auto 3rem; position: relative; z-index: 1;
+  }
+  .cta-actions {
+    display: flex; gap: 1rem; justify-content: center;
+    position: relative; z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(74,158,255,0.1);
+    padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: .75rem; letter-spacing: .2em; color: var(--amber);
+  }
+  .footer-note {
+    font-size: .75rem; color: rgba(200,212,224,0.35);
+    letter-spacing: .05em;
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: .75rem; color: rgba(200,212,224,0.35);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--fog); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+
+  /* ── PAGE SWITCHER ── */
+  .page-tabs {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(74,158,255,0.15);
+    border-radius: 2px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .page-tab {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .1em;
+    padding: .45rem 1.1rem;
+    background: transparent; border: none;
+    color: var(--fog); cursor: pointer;
+    transition: all .2s; white-space: nowrap;
+  }
+  .page-tab.active {
+    background: var(--amber); color: var(--ink);
+  }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── TOURISM HERO ── */
+  .t-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: flex-end;
+    padding: 0 4rem 7rem;
+    overflow: hidden;
+  }
+  .t-hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 30% 50%, rgba(20,60,40,0.5) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(10,37,64,0.4) 0%, transparent 60%),
+      linear-gradient(160deg, #0a120d 0%, #081a12 35%, #0a1f18 60%, #060e10 100%);
+  }
+  .t-hero-glow {
+    position: absolute;
+    top: 35%; left: 25%;
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(100,200,120,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .t-horizon {
+    position: absolute; left: 0; right: 0; top: 58%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(100,220,140,0.25) 30%, rgba(100,220,140,0.5) 50%, rgba(100,220,140,0.25) 70%, transparent);
+  }
+
+  /* Bokeh dots */
+  .bokeh {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(100,220,140,0.35) 0%, transparent 70%);
+    animation: bokehFloat 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .b1 { width: 6px; height: 6px; top: 25%; left: 60%; animation-delay: 0s; }
+  .b2 { width: 4px; height: 4px; top: 40%; left: 75%; animation-delay: 1.5s; }
+  .b3 { width: 8px; height: 8px; top: 20%; left: 45%; animation-delay: 3s; }
+  .b4 { width: 3px; height: 3px; top: 50%; left: 55%; animation-delay: 4.5s; }
+  .b5 { width: 5px; height: 5px; top: 35%; left: 85%; animation-delay: 6s; }
+  @keyframes bokehFloat {
+    0%,100% { transform: translateY(0); opacity: .6; }
+    50% { transform: translateY(-20px); opacity: 1; }
+  }
+
+  /* FPV scan lines */
+  .fpv-frame {
+    position: absolute; top: 15%; right: 8%;
+    width: 300px; height: 200px;
+    border: 1px solid rgba(100,220,140,0.2);
+  }
+  .fpv-frame::before, .fpv-frame::after {
+    content: '';
+    position: absolute;
+    border: 1px solid rgba(100,220,140,0.35);
+  }
+  .fpv-frame::before { top: 10px; left: 10px; right: 10px; bottom: 10px; }
+  .fpv-frame::after { top: 25px; left: 25px; right: 25px; bottom: 25px; opacity: .5; }
+  .fpv-crosshair {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 20px; height: 20px;
+  }
+  .fpv-crosshair::before, .fpv-crosshair::after {
+    content: ''; position: absolute; background: rgba(100,220,140,0.6);
+  }
+  .fpv-crosshair::before { top: 50%; left: 0; right: 0; height: 1px; }
+  .fpv-crosshair::after { left: 50%; top: 0; bottom: 0; width: 1px; }
+  .fpv-label {
+    position: absolute; bottom: -1.5rem; left: 0;
+    font-family: 'Space Mono', monospace; font-size: .55rem;
+    color: rgba(100,220,140,0.5); letter-spacing: .15em;
+  }
+  .fpv-alt {
+    position: absolute; top: 1rem; right: -5rem;
+    font-family: 'Space Mono', monospace; font-size: .6rem;
+    color: rgba(100,220,140,0.6); letter-spacing: .1em;
+    writing-mode: vertical-rl;
+    animation: altPulse 3s ease-in-out infinite;
+  }
+  @keyframes altPulse { 0%,100% { opacity:.4 } 50% { opacity:1 } }
+
+  .t-hero-content {
+    position: relative; z-index: 2;
+    max-width: 700px;
+    animation: fadeUp 1.2s ease both;
+  }
+  .t-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem; letter-spacing: .3em;
+    color: #64dc8c;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .t-eyebrow::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: #64dc8c;
+  }
+  .t-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 800; line-height: 1.1;
+    color: var(--white); margin-bottom: 1rem;
+  }
+  .t-title .t-accent { color: #64dc8c; }
+  .t-title .t-italic {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic; color: rgba(255,255,255,0.6);
+  }
+  .t-sub {
+    font-size: 1rem; line-height: 1.85;
+    color: var(--fog); max-width: 500px;
+    margin-bottom: 2.5rem;
+  }
+  .btn-green {
+    padding: .9rem 2.2rem;
+    background: #64dc8c; color: #040f08;
+    font-family: 'Space Mono', monospace;
+    font-size: .8rem; letter-spacing: .1em;
+    border: none; cursor: pointer;
+    transition: all .25s; text-decoration: none;
+    display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .btn-green:hover { background: #80ffaa; transform: translateY(-2px); }
+
+  /* ── EXPERIENCE STRIP ── */
+  .t-strip {
+    display: flex;
+    border-top: 1px solid rgba(100,220,140,0.1);
+    border-bottom: 1px solid rgba(100,220,140,0.1);
+  }
+  .t-strip-item {
+    flex: 1; padding: 2rem 1.5rem;
+    border-right: 1px solid rgba(100,220,140,0.1);
+    text-align: center;
+    background: rgba(10,20,14,0.6);
+    transition: background .3s;
+  }
+  .t-strip-item:last-child { border-right: none; }
+  .t-strip-item:hover { background: rgba(20,50,30,0.6); }
+  .t-strip-icon { font-size: 1.6rem; margin-bottom: .6rem; display: block; }
+  .t-strip-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem; letter-spacing: .15em;
+    color: #64dc8c; margin-bottom: .4rem;
+  }
+  .t-strip-text { font-size: .8rem; color: var(--fog); line-height: 1.5; }
+
+  /* ── WHAT YOU GET ── */
+  .t-what {
+    background: #080f0a;
+    padding: 8rem 4rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+  }
+  .t-section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .3em;
+    color: #64dc8c; text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .t-section-tag::before { content: ''; width: 24px; height: 1px; background: #64dc8c; }
+  .t-section-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.2;
+    margin-bottom: 1.5rem; color: var(--white);
+  }
+  .t-section-body { font-size: .9rem; line-height: 1.9; color: var(--fog); }
+
+  .t-deliverables {
+    display: flex; flex-direction: column; gap: 1px;
+    background: rgba(100,220,140,0.08);
+  }
+  .t-deliverable {
+    background: #080f0a;
+    padding: 1.5rem 1.8rem;
+    display: grid; grid-template-columns: 2.5rem 1fr;
+    gap: 1rem; align-items: start;
+    transition: background .25s;
+  }
+  .t-deliverable:hover { background: rgba(10,30,16,0.9); }
+  .t-d-icon {
+    font-size: 1.4rem; padding-top: .1rem;
+  }
+  .t-d-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem; font-weight: 600;
+    color: var(--white); margin-bottom: .3rem;
+  }
+  .t-d-desc { font-size: .8rem; color: var(--fog); line-height: 1.6; }
+
+  /* ── PLANS ── */
+  .t-plans { background: #0a120d; padding: 8rem 4rem; }
+  .t-plans-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; margin-top: 4rem;
+    background: rgba(100,220,140,0.08);
+  }
+  .t-plan {
+    background: #0a120d;
+    padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: background .3s;
+  }
+  .t-plan:hover { background: rgba(12,28,18,0.95); }
+  .t-plan.featured {
+    background: rgba(15,45,25,0.8);
+    border-top: 2px solid #64dc8c;
+  }
+  .t-plan-badge {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: .55rem; letter-spacing: .15em;
+    padding: .3rem .7rem;
+    background: #64dc8c; color: #040f08;
+  }
+  .t-plan-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem; letter-spacing: .2em;
+    color: rgba(100,220,140,0.6); margin-bottom: 1rem;
+  }
+  .t-plan-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--white); margin-bottom: .4rem;
+  }
+  .t-plan-duration {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; color: var(--fog);
+    letter-spacing: .1em; margin-bottom: 1.5rem;
+  }
+  .t-plan-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem; color: #64dc8c;
+    margin-bottom: .3rem;
+  }
+  .t-plan-price-note {
+    font-size: .75rem; color: var(--fog); margin-bottom: 2rem;
+  }
+  .t-plan-features { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+  .t-plan-features li {
+    font-size: .82rem; color: var(--fog);
+    padding-left: 1.2rem; position: relative; line-height: 1.5;
+  }
+  .t-plan-features li::before {
+    content: '—'; position: absolute; left: 0;
+    color: rgba(100,220,140,0.5);
+  }
+  .t-plan-btn {
+    display: block; width: 100%;
+    margin-top: 2rem; padding: .8rem;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: .7rem; letter-spacing: .1em;
+    border: 1px solid rgba(100,220,140,0.3);
+    color: #64dc8c; background: transparent;
+    cursor: pointer; transition: all .25s;
+    text-decoration: none;
+  }
+  .t-plan-btn:hover { background: rgba(100,220,140,0.1); border-color: #64dc8c; }
+  .t-plan.featured .t-plan-btn {
+    background: #64dc8c; color: #040f08; border-color: #64dc8c;
+  }
+  .t-plan.featured .t-plan-btn:hover { background: #80ffaa; }
+
+  /* ── SPOTS ── */
+  .t-spots { background: #080f0a; padding: 8rem 4rem; }
+  .t-spots-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1.5px; margin-top: 4rem;
+    background: rgba(100,220,140,0.07);
+  }
+  .t-spot {
+    background: #080f0a; padding: 2rem 1.5rem;
+    transition: background .3s; cursor: default;
+  }
+  .t-spot:hover { background: rgba(10,25,14,0.95); }
+  .t-spot-num {
+    font-family: 'Space Mono', monospace; font-size: .6rem;
+    color: rgba(100,220,140,0.35); letter-spacing: .2em; margin-bottom: 1rem;
+  }
+  .t-spot-name {
+    font-family: 'Shippori Mincho', serif; font-size: 1.15rem;
+    font-weight: 700; color: var(--white); margin-bottom: .5rem;
+  }
+  .t-spot-desc { font-size: .78rem; color: var(--fog); line-height: 1.7; }
+
+  /* ── FLOW (tourism) ── */
+  .t-flow { background: #0a120d; padding: 8rem 4rem; }
+  .t-flow-steps {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 1.5px; margin-top: 4rem;
+    background: rgba(100,220,140,0.07);
+  }
+  .t-flow-step {
+    background: #0a120d; padding: 2rem 1.5rem;
+    position: relative;
+  }
+  .t-flow-step:not(:last-child)::after {
+    content: '\2192';
+    position: absolute; right: -12px; top: 50%;
+    transform: translateY(-50%);
+    color: rgba(100,220,140,0.3);
+    font-size: 1rem; z-index: 1;
+  }
+  .t-flow-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: rgba(100,220,140,0.15);
+    margin-bottom: .8rem;
+  }
+  .t-flow-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: .95rem; font-weight: 700;
+    color: var(--white); margin-bottom: .5rem;
+  }
+  .t-flow-desc { font-size: .75rem; color: var(--fog); line-height: 1.7; }
+
+  /* ── TOURISM CTA ── */
+  .t-cta {
+    background: linear-gradient(135deg, #061008 0%, #0d2010 50%, #081008 100%);
+    padding: 8rem 4rem; text-align: center;
+    position: relative; overflow: hidden;
+    border-top: 1px solid rgba(100,220,140,0.1);
+  }
+  .t-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(100,220,140,0.05) 0%, transparent 70%);
+  }
+  .t-cta-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .3em;
+    color: #64dc8c; text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .t-cta-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800; line-height: 1.2;
+    margin-bottom: 1.2rem; position: relative; z-index: 1;
+  }
+  .t-cta-sub {
+    font-size: .95rem; color: var(--fog); line-height: 1.8;
+    max-width: 480px; margin: 0 auto 2.5rem;
+    position: relative; z-index: 1;
+  }
+  .notice-box {
+    display: inline-flex; align-items: center; gap: .8rem;
+    border: 1px solid rgba(100,220,140,0.2);
+    padding: .8rem 1.4rem; margin-bottom: 2.5rem;
+    font-family: 'Space Mono', monospace; font-size: .65rem;
+    color: rgba(100,220,140,0.6); letter-spacing: .08em;
+    position: relative; z-index: 1;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .stats-bar, .hero, .t-hero, .t-what, .t-plans, .t-spots, .t-flow, .t-cta, .t-spots, .t-flow { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .problem, .flow-inner, .t-what { grid-template-columns: 1fr; gap: 3rem; }
+    .program-grid, .audience-cards, .t-plans-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .problem-visual { height: 280px; }
+    .t-flow-steps { grid-template-columns: 1fr; }
+    .t-flow-step::after { display: none; }
+    .t-spots-grid { grid-template-columns: 1fr 1fr; }
+    .fpv-frame { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SORA &times; SHIMA</div>
+  <div class="page-tabs">
+    <button class="page-tab active" onclick="switchPage('edu')">教育プログラム</button>
+    <button class="page-tab" onclick="switchPage('tour')">観光空撮体験</button>
+  </div>
+  <a href="#contact" class="nav-cta">CONTACT</a>
+</nav>
+
+<!-- PAGE: EDUCATION -->
+<div class="page active" id="page-edu">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-horizon"></div>
+  <div class="circle circle-1"></div>
+  <div class="circle circle-2"></div>
+  <div class="circle circle-3"></div>
+  <div class="drone-path">
+    <div class="drone-dot"></div>
+    <div class="drone-trail"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Drone &times; Island Education Program</div>
+    <h1 class="hero-title">
+      空から見れば、<br>
+      <span class="italic">島の課題が</span><br>
+      <span class="accent">見えてくる。</span>
+    </h1>
+    <p class="hero-sub">
+      ドローンは撮影の道具ではありません。<br>
+      棚田の消滅、漂着ゴミ、老朽インフラ——<br>
+      島が抱える課題を「空の視点」で捉え、<br>
+      解決策を設計する力を育てるプログラムです。
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">プログラムを相談する</a>
+      <a href="#program" class="btn-ghost">詳細を見る</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <span class="stat-num">44,000&rarr;</span>
+    <span class="stat-label">来島観光客数<br>10年で3割減（海士町）</span>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <span class="stat-num">60%+</span>
+    <span class="stat-label">島根県内農業従事者の<br>高齢化率</span>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <span class="stat-num">3h</span>
+    <span class="stat-label">本土からの<br>最短アクセス時間</span>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <span class="stat-num">2,200人</span>
+    <span class="stat-label">海士町人口<br>島の全てを担う規模</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="about">
+  <div class="problem-visual reveal">
+    <div class="problem-card">
+      <div class="problem-num">01</div>
+      <div class="problem-card-title">AGRICULTURE</div>
+      <div class="problem-card-text">棚田の耕作放棄が進み、<br>誰も変化に気づけない</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">02</div>
+      <div class="problem-card-title">ENVIRONMENT</div>
+      <div class="problem-card-text">外海の海岸には手が届かず、<br>漂着ゴミが蓄積し続ける</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">03</div>
+      <div class="problem-card-title">INFRASTRUCTURE</div>
+      <div class="problem-card-text">人手不足で点検できない<br>崖・港湾・道路が増えている</div>
+    </div>
+  </div>
+  <div>
+    <div class="section-tag reveal">BACKGROUND</div>
+    <h2 class="section-title reveal">
+      島の課題は、<br>地上からでは<br>見えにくい。
+    </h2>
+    <p class="section-body reveal">
+      海士町が直面する課題の多くは、人が近づけない場所、広すぎて歩けない範囲、記録されてこなかった変化から生まれています。
+      <br><br>
+      ドローンは、その「死角」を可視化する道具です。しかし技術を持つだけでは何も変わりません。このプログラムは、ドローン操縦のスキルと、課題解決のプロセス設計を同時に学ぶことで、「空の目」を「行動の力」に変えます。
+    </p>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section class="program" id="program">
+  <div class="section-tag reveal">PROGRAM</div>
+  <h2 class="section-title reveal">4つの<br>テーマプログラム</h2>
+
+  <div class="program-grid">
+    <div class="program-item reveal">
+      <div class="program-num">PROGRAM 01</div>
+      <span class="program-icon">&#x1F33E;</span>
+      <div class="program-title">棚田モニタリング</div>
+      <p class="program-desc">ドローンで棚田の定期撮影・記録を行い、耕作放棄地の早期発見と農地の経年変化マップを作成します。農業後継者問題に、データと可視化でアプローチします。</p>
+      <span class="program-tag">農業 / 後継者問題</span>
+    </div>
+    <div class="program-item reveal reveal-delay-1">
+      <div class="program-num">PROGRAM 02</div>
+      <span class="program-icon">&#x1F30A;</span>
+      <div class="program-title">海岸ゴミマッピング</div>
+      <p class="program-desc">外海の海岸をドローンで撮影し、漂着ゴミをAIで分類・地図化。回収計画の立案から行政への提言まで、一連の課題解決プロセスを体験します。</p>
+      <span class="program-tag">環境 / 海洋ゴミ</span>
+    </div>
+    <div class="program-item reveal reveal-delay-2">
+      <div class="program-num">PROGRAM 03</div>
+      <span class="program-icon">&#x1F4E1;</span>
+      <div class="program-title">インフラ点検内製化</div>
+      <p class="program-desc">崖・港湾・道路のひび割れや劣化をドローンで記録し、点検スキルを島内に内製化します。外注費削減と定期点検体制の構築を目指します。</p>
+      <span class="program-tag">インフラ / 人手不足</span>
+    </div>
+    <div class="program-item reveal">
+      <div class="program-num">PROGRAM 04</div>
+      <span class="program-icon">&#x1F3A5;</span>
+      <div class="program-title">島の魅力発信</div>
+      <p class="program-desc">島民自身が島の魅力を空撮映像で発信できるスキルを習得。観光協会・宿泊事業者・移住促進の現場で使える、継続的な発信の仕組みをつくります。</p>
+      <span class="program-tag">観光 / 関係人口</span>
+    </div>
+    <div class="program-item reveal reveal-delay-1">
+      <div class="program-num">PROGRAM 05</div>
+      <span class="program-icon">&#x1F3E2;</span>
+      <div class="program-title">企業研修 &times; 島課題</div>
+      <p class="program-desc">都市部の企業チームが海士町を訪れ、島の実際の課題にドローンで挑むワーケーション型研修。SDGs・チームビルディング・フィールドワークを統合。</p>
+      <span class="program-tag">企業研修 / SDGs</span>
+    </div>
+    <div class="program-item reveal reveal-delay-2">
+      <div class="program-num">PROGRAM 06</div>
+      <span class="program-icon">&#x1F4DA;</span>
+      <div class="program-title">高校生&times;島の未来</div>
+      <p class="program-desc">隠岐島前高校と連携し、高校生が地域課題を設定してドローンで調査・分析・提案する探究学習プログラム。島を卒業しない理由をつくります。</p>
+      <span class="program-tag">教育 / 探究学習</span>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow" id="flow">
+  <div class="section-tag reveal">HOW IT WORKS</div>
+  <h2 class="section-title reveal">
+    「空撮」ではなく<br>「課題解決」を<br>設計する流れ
+  </h2>
+
+  <div class="flow-inner">
+    <div class="flow-steps">
+      <div class="flow-step reveal">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">課題の定義（HPIセッション）</div>
+          <p class="step-desc">「何を変えたいか」から始めます。ドローンを使う前に、現状のギャップと望ましいパフォーマンスを明確にします。</p>
+          <div class="step-duration">&#x25B8; HALF DAY</div>
+        </div>
+      </div>
+      <div class="flow-step reveal reveal-delay-1">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">操縦基礎習得</div>
+          <p class="step-desc">インストラクター同伴でFPVドローンの基本操作を習得。島内の決められたエリアで安全に飛ばせるレベルまで。</p>
+          <div class="step-duration">&#x25B8; 1 DAY</div>
+        </div>
+      </div>
+      <div class="flow-step reveal reveal-delay-2">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">フィールドワーク</div>
+          <p class="step-desc">テーマに沿って実際に飛ばし、映像・データを収集。棚田、海岸、インフラなど現場に出ます。</p>
+          <div class="step-duration">&#x25B8; 1-2 DAYS</div>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">分析・提言づくり</div>
+          <p class="step-desc">収集した映像・データを整理し、課題の可視化レポートと行動提言を作成。行政・地域への発表まで行います。</p>
+          <div class="step-duration">&#x25B8; HALF DAY</div>
+        </div>
+      </div>
+      <div class="flow-step reveal reveal-delay-1">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">継続サポート</div>
+          <p class="step-desc">プログラム終了後も、定期飛行・データ蓄積・技術アップデートを継続サポート。島に「使い続けられる仕組み」を残します。</p>
+          <div class="step-duration">&#x25B8; ONGOING</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-aside reveal">
+      <div class="hpi-box">
+        <div class="hpi-title">PROGRAM DESIGN BASIS</div>
+        <div class="hpi-row">
+          <span class="hpi-key">設計フレームワーク</span>
+          <span class="hpi-val">HPI（人間パフォーマンス改善）</span>
+        </div>
+        <div class="hpi-row">
+          <span class="hpi-key">課題分析</span>
+          <span class="hpi-val">Gilbert BEM</span>
+        </div>
+        <div class="hpi-row">
+          <span class="hpi-key">効果測定</span>
+          <span class="hpi-val">Kirkpatrick 4段階</span>
+        </div>
+        <div class="hpi-row">
+          <span class="hpi-key">変化の焦点</span>
+          <span class="hpi-val">知識・スキル・動機・環境</span>
+        </div>
+        <div class="hpi-row">
+          <span class="hpi-key">機体</span>
+          <span class="hpi-val">FPVドローン（DJI系）</span>
+        </div>
+        <div class="hpi-row">
+          <span class="hpi-key">資格サポート</span>
+          <span class="hpi-val">無人航空機操縦者 二等対応</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section class="audience" id="audience">
+  <div class="section-tag reveal">FOR WHOM</div>
+  <h2 class="section-title reveal">対象と<br>料金の目安</h2>
+
+  <div class="audience-cards">
+    <div class="audience-card reveal">
+      <div class="audience-label">FOR COMPANIES</div>
+      <div class="audience-title">企業・法人向け<br>ワーケーション研修</div>
+      <p class="audience-desc">SDGs推進・チームビルディング・フィールドワーク研修を海士町で実施。島の実課題に取り組むことで、座学では得られない問題解決力を育てます。</p>
+      <div class="audience-price">&yen;300,000〜<span>/ グループ（10名程度）</span></div>
+    </div>
+    <div class="audience-card reveal reveal-delay-1">
+      <div class="audience-label">FOR GOVERNMENT / NPO</div>
+      <div class="audience-title">島根県・海士町<br>行政・NPO向け</div>
+      <p class="audience-desc">地域おこし協力隊・島留学生・町職員を対象にしたドローン活用研修。インフラ点検・農地管理・広報映像制作のスキルを内製化します。</p>
+      <div class="audience-price">&yen;150,000〜<span>/ 1プログラム</span></div>
+    </div>
+    <div class="audience-card reveal reveal-delay-2">
+      <div class="audience-label">FOR SCHOOLS</div>
+      <div class="audience-title">隠岐島前高校<br>探究学習連携</div>
+      <p class="audience-desc">高校生が地域課題を設定し、ドローンで調査・分析・提言する探究学習。進路選択にもつながる「島と自分のつながり」を実感するプログラムです。</p>
+      <div class="audience-price">要相談<span>/ 学校・行政と協議</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-eyebrow">GET STARTED</div>
+  <h2 class="cta-title">
+    まず、島の課題を<br>一緒に考えましょう。
+  </h2>
+  <p class="cta-sub">
+    プログラムの詳細、対象者、費用感について、<br>
+    初回のオンライン相談は無料です。<br>
+    お気軽にご連絡ください。
+  </p>
+  <div class="cta-actions">
+    <a href="mailto:info@example.com" class="btn-primary">無料相談を申し込む</a>
+    <a href="#program" class="btn-ghost">プログラムを見る</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+</div><!-- /page-edu -->
+
+<!-- PAGE: TOURISM -->
+<div class="page" id="page-tour">
+
+<!-- TOURISM HERO -->
+<section class="t-hero">
+  <div class="t-hero-bg"></div>
+  <div class="t-hero-glow"></div>
+  <div class="t-horizon"></div>
+  <div class="bokeh b1"></div>
+  <div class="bokeh b2"></div>
+  <div class="bokeh b3"></div>
+  <div class="bokeh b4"></div>
+  <div class="bokeh b5"></div>
+  <div class="fpv-frame">
+    <div class="fpv-crosshair"></div>
+    <div class="fpv-label">&#x25CF; REC &nbsp; AMA-CHO / NAKANOSHIMA</div>
+    <div class="fpv-alt">ALT 50m &uarr;</div>
+  </div>
+  <div class="t-hero-content">
+    <div class="t-eyebrow">FPV Drone Experience / Ama-cho</div>
+    <h1 class="t-title">
+      鳥になって、<br>
+      <span class="t-italic">海士の絶景を</span><br>
+      <span class="t-accent">飛んでみませんか。</span>
+    </h1>
+    <p class="t-sub">
+      FPVドローンで島の上空を飛ぶ、ここだけの体験。<br>
+      棚田・断崖・内海——あなたの視点で撮った映像を<br>
+      そのままお持ち帰りいただけます。
+    </p>
+    <div class="hero-actions">
+      <a href="#t-plans" class="btn-green">体験を予約する</a>
+      <a href="#t-spots" class="btn-ghost">撮影スポットを見る</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line" style="background:linear-gradient(to bottom,rgba(100,220,140,0.6),transparent)"></div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="t-strip">
+  <div class="t-strip-item reveal">
+    <span class="t-strip-icon">&#x1F3AE;</span>
+    <div class="t-strip-label">EASY TO FLY</div>
+    <div class="t-strip-text">操縦経験ゼロでもOK<br>インストラクター同伴</div>
+  </div>
+  <div class="t-strip-item reveal reveal-delay-1">
+    <span class="t-strip-icon">&#x1F4F9;</span>
+    <div class="t-strip-label">TAKE IT HOME</div>
+    <div class="t-strip-text">撮影映像データを<br>その日にお渡し</div>
+  </div>
+  <div class="t-strip-item reveal reveal-delay-2">
+    <span class="t-strip-icon">&#x1F30A;</span>
+    <div class="t-strip-label">UNIQUE VIEWS</div>
+    <div class="t-strip-text">棚田・断崖・内海<br>島の絶景スポット厳選</div>
+  </div>
+  <div class="t-strip-item reveal reveal-delay-3">
+    <span class="t-strip-icon">&#x1F512;</span>
+    <div class="t-strip-label">FULLY INSURED</div>
+    <div class="t-strip-text">賠償責任保険完備<br>安全第一の飛行</div>
+  </div>
+  <div class="t-strip-item reveal">
+    <span class="t-strip-icon">&#x1F465;</span>
+    <div class="t-strip-label">ALL WELCOME</div>
+    <div class="t-strip-text">お一人様〜グループまで<br>少人数・プライベート制</div>
+  </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<div class="t-what">
+  <div>
+    <div class="t-section-tag reveal">WHAT YOU GET</div>
+    <h2 class="t-section-title reveal">
+      体験でもらえるもの、<br>感じられること。
+    </h2>
+    <p class="t-section-body reveal">
+      ドローンで空から見る海士町は、地上から見るのとまったく違います。棚田が幾何学的に広がる様子、断崖に砕ける波、穏やかな内海と外海の対比——
+      <br><br>
+      その映像を、あなた自身の手で撮れるのがこの体験の核心です。ただ見るだけでなく、操縦という能動的な関わりが、島との記憶を深く刻みます。
+    </p>
+  </div>
+  <div class="t-deliverables reveal">
+    <div class="t-deliverable">
+      <div class="t-d-icon">&#x1F3AC;</div>
+      <div>
+        <div class="t-d-title">飛行映像データ（フル解像度）</div>
+        <div class="t-d-desc">飛行中に撮影した映像をそのまま当日お渡し。SNS投稿・思い出保存にそのままお使いいただけます。</div>
+      </div>
+    </div>
+    <div class="t-deliverable">
+      <div class="t-d-icon">&#x1F4F8;</div>
+      <div>
+        <div class="t-d-title">空撮スチル写真（10枚以上）</div>
+        <div class="t-d-desc">プランによってはインストラクターがベストショットを静止画でキャプチャしてお渡しします。</div>
+      </div>
+    </div>
+    <div class="t-deliverable">
+      <div class="t-d-icon">&#x2702;&#xFE0F;</div>
+      <div>
+        <div class="t-d-title">ショートムービー編集版（上位プランのみ）</div>
+        <div class="t-d-desc">BGM付きの1〜2分ショートムービーに仕上げてお渡しします。SNSリールにそのまま使えるサイズで納品。</div>
+      </div>
+    </div>
+    <div class="t-deliverable">
+      <div class="t-d-icon">&#x1F5FA;&#xFE0F;</div>
+      <div>
+        <div class="t-d-title">飛行ルートマップ</div>
+        <div class="t-d-desc">どこを飛んだかわかる飛行ルートの地図。旅の記録として、また次回来島時の参考にどうぞ。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLANS -->
+<section class="t-plans" id="t-plans">
+  <div class="t-section-tag reveal">PLANS &amp; PRICING</div>
+  <h2 class="t-section-title reveal">体験プランと料金</h2>
+
+  <div class="t-plans-grid">
+    <div class="t-plan reveal">
+      <div class="t-plan-label">PLAN 01 / SOLO OR COUPLE</div>
+      <div class="t-plan-name">ソロ体験プラン</div>
+      <div class="t-plan-duration">&#x23F1; 約60分 &nbsp;｜&nbsp; 1〜2名</div>
+      <div class="t-plan-price">&yen;6,000</div>
+      <div class="t-plan-price-note">/ 1名あたり（2名の場合 &yen;5,000/人）</div>
+      <ul class="t-plan-features">
+        <li>インストラクター同伴飛行</li>
+        <li>島内1スポット・約30分飛行</li>
+        <li>飛行映像データ（当日渡し）</li>
+        <li>スチル写真 5枚</li>
+        <li>飛行ルートマップ</li>
+      </ul>
+      <a href="#t-contact" class="t-plan-btn">このプランを予約</a>
+    </div>
+
+    <div class="t-plan featured reveal reveal-delay-1">
+      <div class="t-plan-badge">人気</div>
+      <div class="t-plan-label">PLAN 02 / SMALL GROUP</div>
+      <div class="t-plan-name">グループ体験プラン</div>
+      <div class="t-plan-duration">&#x23F1; 約90分 &nbsp;｜&nbsp; 3〜6名</div>
+      <div class="t-plan-price">&yen;8,000</div>
+      <div class="t-plan-price-note">/ 1名あたり</div>
+      <ul class="t-plan-features">
+        <li>インストラクター同伴飛行</li>
+        <li>島内2スポット・約50分飛行</li>
+        <li>飛行映像データ（当日渡し）</li>
+        <li>スチル写真 15枚以上</li>
+        <li>飛行ルートマップ</li>
+        <li>SNS用ショートムービー編集版</li>
+      </ul>
+      <a href="#t-contact" class="t-plan-btn">このプランを予約</a>
+    </div>
+
+    <div class="t-plan reveal reveal-delay-2">
+      <div class="t-plan-label">PLAN 03 / PREMIUM</div>
+      <div class="t-plan-name">プレミアム体験プラン</div>
+      <div class="t-plan-duration">&#x23F1; 約3時間 &nbsp;｜&nbsp; 1〜4名</div>
+      <div class="t-plan-price">&yen;20,000</div>
+      <div class="t-plan-price-note">/ 1名あたり</div>
+      <ul class="t-plan-features">
+        <li>インストラクター専任同伴</li>
+        <li>島内3〜4スポット選択可</li>
+        <li>飛行映像データ（フル解像度）</li>
+        <li>スチル写真 30枚以上</li>
+        <li>BGM付きショートムービー 2本</li>
+        <li>日没・早朝など時間帯リクエスト可</li>
+        <li>隠岐牛ランチ付き（季節限定）</li>
+      </ul>
+      <a href="#t-contact" class="t-plan-btn">このプランを予約</a>
+    </div>
+  </div>
+</section>
+
+<!-- SPOTS -->
+<section class="t-spots" id="t-spots">
+  <div class="t-section-tag reveal">FLIGHT SPOTS</div>
+  <h2 class="t-section-title reveal">撮影スポット</h2>
+
+  <div class="t-spots-grid">
+    <div class="t-spot reveal">
+      <div class="t-spot-num">SPOT 01</div>
+      <div class="t-spot-name">豊田の棚田</div>
+      <div class="t-spot-desc">中ノ島を代表する棚田の絶景。幾何学的な段々畑が空から見ると息を呑む美しさ。水が張る春〜初夏が特に壮観。</div>
+    </div>
+    <div class="t-spot reveal reveal-delay-1">
+      <div class="t-spot-num">SPOT 02</div>
+      <div class="t-spot-name">明屋海岸・ハート岩</div>
+      <div class="t-spot-desc">赤い断崖と青い海のコントラスト。空撮でしか見えない角度からハート岩を捉えることができる人気スポット。</div>
+    </div>
+    <div class="t-spot reveal reveal-delay-2">
+      <div class="t-spot-num">SPOT 03</div>
+      <div class="t-spot-name">菱浦港・内海</div>
+      <div class="t-spot-desc">フェリーが行き交う穏やかな内海。島の玄関口を空から一望する、旅の締めくくりにも最適なビュースポット。</div>
+    </div>
+    <div class="t-spot reveal reveal-delay-3">
+      <div class="t-spot-num">SPOT 04</div>
+      <div class="t-spot-name">木路ヶ埼灯台</div>
+      <div class="t-spot-desc">夕日が美しい岬の灯台。日本海の水平線と夕焼けが重なる時間帯の空撮は、プレミアムプランだけの特権。</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="t-flow">
+  <div class="t-section-tag reveal">HOW IT WORKS</div>
+  <h2 class="t-section-title reveal">体験の流れ</h2>
+
+  <div class="t-flow-steps">
+    <div class="t-flow-step reveal">
+      <div class="t-flow-num">1</div>
+      <div class="t-flow-title">事前予約</div>
+      <div class="t-flow-desc">フォームまたはお電話でご予約。希望スポット・人数・日程を教えてください。</div>
+    </div>
+    <div class="t-flow-step reveal reveal-delay-1">
+      <div class="t-flow-num">2</div>
+      <div class="t-flow-title">集合・ブリーフィング</div>
+      <div class="t-flow-desc">菱浦港またはスポット現地に集合。安全説明と操縦の基礎を10分でレクチャー。</div>
+    </div>
+    <div class="t-flow-step reveal reveal-delay-2">
+      <div class="t-flow-num">3</div>
+      <div class="t-flow-title">フライト体験</div>
+      <div class="t-flow-desc">インストラクターと一緒に実際に飛ばします。怖くなったらすぐサポート、楽しくなったら任せます。</div>
+    </div>
+    <div class="t-flow-step reveal reveal-delay-3">
+      <div class="t-flow-num">4</div>
+      <div class="t-flow-title">映像データ渡し</div>
+      <div class="t-flow-desc">飛行後すぐにデータをお渡し。その場でスマホに転送できます。</div>
+    </div>
+    <div class="t-flow-step reveal">
+      <div class="t-flow-num">5</div>
+      <div class="t-flow-title">SNSでシェア</div>
+      <div class="t-flow-desc">島を離れる前に、あなたが撮った海士町の絶景を世界に届けてください。</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOURISM CTA -->
+<section class="t-cta" id="t-contact">
+  <div class="t-cta-eyebrow">BOOKING</div>
+  <h2 class="t-cta-title">
+    海士町の空を、<br>あなたの目で見てください。
+  </h2>
+  <p class="t-cta-sub">
+    来島前のご予約がおすすめです。<br>天候や風の状況により当日キャンセルになる場合があります。<br>その際は全額返金いたします。
+  </p>
+  <div class="notice-box">
+    &#x26A1; &nbsp; 悪天候・強風時は安全のためフライトを中止します &nbsp; &#x26A1;
+  </div>
+  <div class="cta-actions">
+    <a href="mailto:info@example.com" class="btn-green">予約フォームへ</a>
+    <a href="tel:000-0000-0000" class="btn-ghost">&#x1F4DE; お電話で相談</a>
+  </div>
+</section>
+
+</div><!-- /page-tour -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">SORA &times; SHIMA</div>
+  <div class="footer-note">Powered by きづきくみたて &mdash; Drone Education Program for Ama-cho</div>
+  <div class="footer-links">
+    <a href="#">プライバシーポリシー</a>
+    <a href="#">お問い合わせ</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav shadow on scroll
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.background =
+      window.scrollY > 60
+        ? 'rgba(13,15,20,0.97)'
+        : 'linear-gradient(to bottom, rgba(13,15,20,0.95), transparent)';
+  });
+
+  // Page switcher
+  function switchPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Re-trigger scroll reveal for newly visible page
+    setTimeout(() => {
+      document.querySelectorAll('#page-' + page + ' .reveal:not(.visible)').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) el.classList.add('visible');
+      });
+    }, 100);
+  }
+</script>
+</body>
+</html>
