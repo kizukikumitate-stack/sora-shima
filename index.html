@@ -77,8 +77,8 @@
   .hero-bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(10,37,64,0.6) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(74,158,255,0.08) 0%, transparent 60%),
+      linear-gradient(to bottom, rgba(13,15,20,0.25) 0%, rgba(13,15,20,0.45) 40%, rgba(13,15,20,0.85) 75%, rgba(13,15,20,0.97) 100%),
+      url('https://www.e-oki.net/wp/wp-content/uploads/2023/12/SP41_3-1300x809.jpg') center 30% / cover no-repeat,
       linear-gradient(160deg, #0d0f14 0%, #0a1929 40%, #0a2540 70%, #071520 100%);
   }
 
@@ -557,8 +557,8 @@
   .t-hero-bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 70% 60% at 30% 50%, rgba(20,60,40,0.5) 0%, transparent 65%),
-      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(10,37,64,0.4) 0%, transparent 60%),
+      linear-gradient(to bottom, rgba(10,18,13,0.2) 0%, rgba(10,18,13,0.4) 40%, rgba(10,18,13,0.85) 75%, rgba(10,18,13,0.97) 100%),
+      url('https://www.e-oki.net/wp/wp-content/uploads/2024/04/cae00d7eb36c5c3170aa793896ce5139-1300x866.jpg') center 40% / cover no-repeat,
       linear-gradient(160deg, #0a120d 0%, #081a12 35%, #0a1f18 60%, #060e10 100%);
   }
   .t-hero-glow {
@@ -822,10 +822,19 @@
     background: rgba(100,220,140,0.07);
   }
   .t-spot {
-    background: #080f0a; padding: 2rem 1.5rem;
+    background: #080f0a; padding: 0;
     transition: background .3s; cursor: default;
+    overflow: hidden;
   }
   .t-spot:hover { background: rgba(10,25,14,0.95); }
+  .t-spot-img {
+    width: 100%; height: 180px;
+    object-fit: cover; display: block;
+    filter: brightness(0.85);
+    transition: filter .3s, transform .4s;
+  }
+  .t-spot:hover .t-spot-img { filter: brightness(1); transform: scale(1.03); }
+  .t-spot-body { padding: 1.5rem; }
   .t-spot-num {
     font-family: 'Space Mono', monospace; font-size: .6rem;
     color: rgba(100,220,140,0.35); letter-spacing: .2em; margin-bottom: 1rem;
@@ -947,17 +956,18 @@
   </div>
 
   <div class="hero-content">
-    <div class="hero-eyebrow">Drone &times; Island Education Program</div>
+    <div class="hero-eyebrow">Drone &times; Education — 隠岐・海士町</div>
     <h1 class="hero-title">
-      空から見れば、<br>
-      <span class="italic">島の課題が</span><br>
-      <span class="accent">見えてくる。</span>
+      海士町の空から、<br>
+      <span class="italic">島の課題を</span><br>
+      <span class="accent">解決する。</span>
     </h1>
     <p class="hero-sub">
-      ドローンは撮影の道具ではありません。<br>
-      棚田の消滅、漂着ゴミ、老朽インフラ——<br>
-      島が抱える課題を「空の視点」で捉え、<br>
-      解決策を設計する力を育てるプログラムです。
+      島根県・隠岐諸島の海士町を舞台にした<br>
+      ドローン×課題解決の教育プログラム。<br>
+      農業・漁業の担い手不足、老朽インフラ、漂着ゴミ——<br>
+      人が足りない島だからこそ、「空の目」で<br>
+      一人ひとりの力を何倍にも広げます。
     </p>
     <div class="hero-actions">
       <a href="#contact" class="btn-primary">プログラムを相談する</a>
@@ -974,20 +984,20 @@
 <!-- STATS -->
 <div class="stats-bar">
   <div class="stat-item reveal">
-    <span class="stat-num">44,000&rarr;</span>
-    <span class="stat-label">来島観光客数<br>10年で3割減（海士町）</span>
+    <span class="stat-num">2,200人</span>
+    <span class="stat-label">海士町の全人口<br>この人数で島のすべてを担う</span>
   </div>
   <div class="stat-item reveal reveal-delay-1">
     <span class="stat-num">60%+</span>
-    <span class="stat-label">島根県内農業従事者の<br>高齢化率</span>
+    <span class="stat-label">一次産業従事者の高齢化率<br>農業・漁業の担い手が急減</span>
   </div>
   <div class="stat-item reveal reveal-delay-2">
-    <span class="stat-num">3h</span>
-    <span class="stat-label">本土からの<br>最短アクセス時間</span>
+    <span class="stat-num">1人→10倍</span>
+    <span class="stat-label">ドローンで広がる労働力<br>点検・監視・記録を省人化</span>
   </div>
   <div class="stat-item reveal reveal-delay-3">
-    <span class="stat-num">2,200人</span>
-    <span class="stat-label">海士町人口<br>島の全てを担う規模</span>
+    <span class="stat-num">0→内製</span>
+    <span class="stat-label">島外委託から島内人材へ<br>スキルを島に残す</span>
   </div>
 </div>
 
@@ -996,29 +1006,29 @@
   <div class="problem-visual reveal">
     <div class="problem-card">
       <div class="problem-num">01</div>
-      <div class="problem-card-title">AGRICULTURE</div>
-      <div class="problem-card-text">棚田の耕作放棄が進み、<br>誰も変化に気づけない</div>
+      <div class="problem-card-title">LABOR SHORTAGE</div>
+      <div class="problem-card-text">農業・漁業・林業の担い手が減り<br>一次産業の現場が回らない</div>
     </div>
     <div class="problem-card">
       <div class="problem-num">02</div>
-      <div class="problem-card-title">ENVIRONMENT</div>
-      <div class="problem-card-text">外海の海岸には手が届かず、<br>漂着ゴミが蓄積し続ける</div>
+      <div class="problem-card-title">AGING &amp; DECLINE</div>
+      <div class="problem-card-text">高齢化で棚田・漁港の管理が困難に<br>広大な島を少人数で維持できない</div>
     </div>
     <div class="problem-card">
       <div class="problem-num">03</div>
       <div class="problem-card-title">INFRASTRUCTURE</div>
-      <div class="problem-card-text">人手不足で点検できない<br>崖・港湾・道路が増えている</div>
+      <div class="problem-card-text">点検・監視・記録に人手が回らず<br>崖・港湾・海岸が放置されている</div>
     </div>
   </div>
   <div>
     <div class="section-tag reveal">BACKGROUND</div>
     <h2 class="section-title reveal">
-      島の課題は、<br>地上からでは<br>見えにくい。
+      人が足りない島で、<br>空の目が<br>労働力になる。
     </h2>
     <p class="section-body reveal">
-      海士町が直面する課題の多くは、人が近づけない場所、広すぎて歩けない範囲、記録されてこなかった変化から生まれています。
+      海士町の人口は約2,200人。農業・漁業・林業といった一次産業の従事者は高齢化が進み、広大な棚田や海岸線を管理する人手が決定的に不足しています。
       <br><br>
-      ドローンは、その「死角」を可視化する道具です。しかし技術を持つだけでは何も変わりません。このプログラムは、ドローン操縦のスキルと、課題解決のプロセス設計を同時に学ぶことで、「空の目」を「行動の力」に変えます。
+      ドローンは、1人の力を10人分に変える道具です。棚田の監視、海岸のゴミ調査、インフラ点検——これまで「人が足りないから放置するしかなかった」仕事を、空から効率的にこなせるようになります。このプログラムは、操縦スキルと課題解決の設計力を同時に育て、島の労働力不足に実践的な解を提供します。
     </p>
   </div>
 </section>
@@ -1386,24 +1396,36 @@
 
   <div class="t-spots-grid">
     <div class="t-spot reveal">
-      <div class="t-spot-num">SPOT 01</div>
-      <div class="t-spot-name">豊田の棚田</div>
-      <div class="t-spot-desc">中ノ島を代表する棚田の絶景。幾何学的な段々畑が空から見ると息を呑む美しさ。水が張る春〜初夏が特に壮観。</div>
+      <div style="overflow:hidden"><img class="t-spot-img" src="https://www.e-oki.net/wp/wp-content/uploads/2024/01/SP252_1-1300x896.jpg" alt="明屋海岸展望所から見た棚田と海"></div>
+      <div class="t-spot-body">
+        <div class="t-spot-num">SPOT 01</div>
+        <div class="t-spot-name">豊田の棚田</div>
+        <div class="t-spot-desc">中ノ島を代表する棚田の絶景。幾何学的な段々畑が空から見ると息を呑む美しさ。水が張る春〜初夏が特に壮観。</div>
+      </div>
     </div>
     <div class="t-spot reveal reveal-delay-1">
-      <div class="t-spot-num">SPOT 02</div>
-      <div class="t-spot-name">明屋海岸・ハート岩</div>
-      <div class="t-spot-desc">赤い断崖と青い海のコントラスト。空撮でしか見えない角度からハート岩を捉えることができる人気スポット。</div>
+      <div style="overflow:hidden"><img class="t-spot-img" src="https://www.e-oki.net/wp/wp-content/uploads/2023/12/SP41_3-1300x809.jpg" alt="明屋海岸の赤い断崖"></div>
+      <div class="t-spot-body">
+        <div class="t-spot-num">SPOT 02</div>
+        <div class="t-spot-name">明屋海岸・ハート岩</div>
+        <div class="t-spot-desc">赤い断崖と青い海のコントラスト。空撮でしか見えない角度からハート岩を捉えることができる人気スポット。</div>
+      </div>
     </div>
     <div class="t-spot reveal reveal-delay-2">
-      <div class="t-spot-num">SPOT 03</div>
-      <div class="t-spot-name">菱浦港・内海</div>
-      <div class="t-spot-desc">フェリーが行き交う穏やかな内海。島の玄関口を空から一望する、旅の締めくくりにも最適なビュースポット。</div>
+      <div style="overflow:hidden"><img class="t-spot-img" src="https://www.e-oki.net/wp/wp-content/uploads/2024/04/961de7fd78b2c13a798cdba434dea231-1300x975.jpg" alt="菱浦港と三郎岩"></div>
+      <div class="t-spot-body">
+        <div class="t-spot-num">SPOT 03</div>
+        <div class="t-spot-name">菱浦港・三郎岩</div>
+        <div class="t-spot-desc">フェリーが行き交う穏やかな内海と、太郎・次郎・三郎の三つ岩。島の玄関口を空から一望するビュースポット。</div>
+      </div>
     </div>
     <div class="t-spot reveal reveal-delay-3">
-      <div class="t-spot-num">SPOT 04</div>
-      <div class="t-spot-name">木路ヶ埼灯台</div>
-      <div class="t-spot-desc">夕日が美しい岬の灯台。日本海の水平線と夕焼けが重なる時間帯の空撮は、プレミアムプランだけの特権。</div>
+      <div style="overflow:hidden"><img class="t-spot-img" src="https://visit-okiislands.e-oki.net/wp/wp-content/uploads/2023/12/SP195_2-1300x848.jpg" alt="木路ヶ埼灯台の夕日"></div>
+      <div class="t-spot-body">
+        <div class="t-spot-num">SPOT 04</div>
+        <div class="t-spot-name">木路ヶ埼灯台</div>
+        <div class="t-spot-desc">夕日が美しい岬の灯台。日本海の水平線と夕焼けが重なる時間帯の空撮は、プレミアムプランだけの特権。</div>
+      </div>
     </div>
   </div>
 </section>
